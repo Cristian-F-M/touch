@@ -1,6 +1,6 @@
-# @cmorales/touch
+# @cmorales_/touch
 
-Creating complex file structures has never been easier. `@cmorales/touch` is a powerful CLI tool that allows you to generate nested directories and files using a simple and intuitive syntax.
+Creating complex file structures has never been easier. `@cmorales_/touch` is a powerful CLI tool that allows you to generate nested directories and files using a simple and intuitive syntax.
 
 ## Installation
 
@@ -10,17 +10,17 @@ You can use the package directly via `npx` or install it globally.
 ### Global Installation (Recommended)
 
 ```bash
-npm install -g @cmorales/touch
+npm install -g @cmorales_/touch
 # or
-pnpm add -g @cmorales/touch
+pnpm add -g @cmorales_/touch
 # or
-bun add -g @cmorales/touch
+bun add -g @cmorales_/touch
 ```
 
 ### Using `npx`
 
 ```bash
-npx @cmorales/touch <structure>
+npx @cmorales_/touch <structure>
 ```
 
 
