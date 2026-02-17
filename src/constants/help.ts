@@ -24,6 +24,7 @@ Usage:
   touch -h          Show this help message     (e.g. touch -h)
   touch --docs      Open the documentation     (e.g. touch --docs)
   touch -d          Open the documentation     (e.g. touch -d)
+  touch --upgrade   Upgrade the package        (e.g. touch --upgrade)
 
 Features:
   Directories       Append '/' to name         (e.g. app/models/)
@@ -63,7 +64,7 @@ export const COMMANDS = {
 	upgrade: {
 		flags: ['--upgrade'],
 		run: async () => {
-			const latestVersion = await getLatestVersion()
+			const { stdout: latestVersion } = await exec(`npm view ${name} version`)
 
 			if (latestVersion.trim() === version.trim()) {
 				success('Package is already up to date')
