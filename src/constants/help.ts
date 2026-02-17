@@ -1,7 +1,8 @@
 import child_process from 'node:child_process'
 import util from 'node:util'
 import cfonts from 'cfonts'
-import { error, info, log, success } from '@/logger'
+import { error, info, log, success, warn } from '@/logger'
+import { getLatestVersion } from '@/utils'
 import { name, version } from '../../package.json'
 
 const exec = util.promisify(child_process.exec)
@@ -48,7 +49,14 @@ export const DOCS_URL =
 export const COMMANDS = {
 	help: {
 		flags: ['--help', '-h'],
-		run: () => console.log(HELP_MESSAGE)
+		run: async () => {
+			const LATEST_VERSION = await getLatestVersion()
+			const OUTDATED =
+				LATEST_VERSION && LATEST_VERSION.trim() !== version.trim()
+
+			console.log(HELP_MESSAGE)
+			if (OUTDATED) warn(`✨ New version available: ${LATEST_VERSION}`)
+		}
 	},
 	docs: {
 		flags: ['--docs', '-d'],
@@ -64,7 +72,7 @@ export const COMMANDS = {
 	upgrade: {
 		flags: ['--upgrade'],
 		run: async () => {
-			const { stdout: latestVersion } = await exec(`npm view ${name} version`)
+			const latestVersion = await getLatestVersion()
 
 			if (latestVersion.trim() === version.trim()) {
 				success('Package is already up to date')
