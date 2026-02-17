@@ -12,7 +12,7 @@ await showFlagsInfo(args)
 const latestVersion = await getLatestVersion()
 if (latestVersion && latestVersion.trim() !== version.trim()) {
 	warn(`✨ New version available: ${latestVersion}`)
-	info(`Run "npm install -g @cmorales_/touch" to update`)
+	info(`Run "touch --upgrade" to update`)
 }
 
 const input = args[0]!.replace(/\s/g, '')

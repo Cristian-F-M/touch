@@ -57,7 +57,7 @@ export const COMMANDS = {
 			console.log(HELP_MESSAGE)
 			if (OUTDATED) {
 				warn(`✨ New version available: ${LATEST_VERSION}`)
-				info(`Run "npm install -g ${name}" to update`)
+				info(`Run "touch --upgrade" to update`)
 			}
 		}
 	},
