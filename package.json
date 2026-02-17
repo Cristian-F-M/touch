@@ -6,7 +6,8 @@
   "private": false,
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts",
-    "test": "vitest"
+    "test": "vitest",
+		"release": "bun run build && npm publish --access public"
   },
   "bin": {
     "touch": "dist/index.js"
