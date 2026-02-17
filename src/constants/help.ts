@@ -55,7 +55,10 @@ export const COMMANDS = {
 				LATEST_VERSION && LATEST_VERSION.trim() !== version.trim()
 
 			console.log(HELP_MESSAGE)
-			if (OUTDATED) warn(`✨ New version available: ${LATEST_VERSION}`)
+			if (OUTDATED) {
+				warn(`✨ New version available: ${LATEST_VERSION}`)
+				info(`Run "npm install -g ${name}" to update`)
+			}
 		}
 	},
 	docs: {
