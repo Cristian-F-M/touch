@@ -6,13 +6,8 @@ Creating complex file structures has never been easier. `@cmorales/touch` is a p
 
 You can use the package directly via `npx` or install it globally.
 
-### Using `npx` (Recommended)
 
-```bash
-npx @cmorales/touch <structure>
-```
-
-### Global Installation
+### Global Installation (Recommended)
 
 ```bash
 npm install -g @cmorales/touch
@@ -21,6 +16,13 @@ pnpm add -g @cmorales/touch
 # or
 bun add -g @cmorales/touch
 ```
+
+### Using `npx`
+
+```bash
+npx @cmorales/touch <structure>
+```
+
 
 ## Usage
 
