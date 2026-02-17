@@ -1,10 +1,14 @@
+import child_process from 'node:child_process'
+import util from 'node:util'
 import cfonts from 'cfonts'
-import { log } from '@/logger'
-import { version } from '../../package.json'
+import { error, info, log, success } from '@/logger'
+import { name, version } from '../../package.json'
+
+const exec = util.promisify(child_process.exec)
 
 const renderedTitle = cfonts.render('touch', {
 	font: 'block',
-	colors: ['system', 'white'],
+	colors: ['system', 'white']
 })
 
 export const TITLE = renderedTitle ? renderedTitle.string : '@cmorales/touch'
@@ -54,6 +58,25 @@ export const COMMANDS = {
 		run: async () => {
 			const { name, version } = await import('../../package.json')
 			log(`${name} v${version}`)
+		}
+	},
+	upgrade: {
+		flags: ['--upgrade'],
+		run: async () => {
+			const { stdout: latestVersion } = await exec(`npm view ${name} version`)
+
+			if (latestVersion.trim() === version.trim()) {
+				success('Package is already up to date')
+				return
+			}
+
+			info('Upgrading package...')
+			const { stderr, stdout } = await exec(`npm install -g ${name}`)
+
+			if (stderr) return error(stderr)
+
+			info(`\n| ${stdout.toString().trim()}\n`)
+			success(`Package upgraded successfully to v${latestVersion}`)
 		}
 	}
 } as const
