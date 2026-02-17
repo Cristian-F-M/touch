@@ -9,8 +9,10 @@ export async function showFlagsInfo(args: string[]) {
 		process.exit(0)
 	}
 
-	if (!args.length) COMMANDS.help.run()
-	process.exit(0)
+	if (!args.length) {
+		await COMMANDS.help.run()
+		process.exit(0)
+	}
 }
 
 export async function getLatestVersion() {
