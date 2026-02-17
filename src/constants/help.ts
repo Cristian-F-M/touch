@@ -63,7 +63,7 @@ export const COMMANDS = {
 	upgrade: {
 		flags: ['--upgrade'],
 		run: async () => {
-			const { stdout: latestVersion } = await exec(`npm view ${name} version`)
+			const latestVersion = await getLatestVersion()
 
 			if (latestVersion.trim() === version.trim()) {
 				success('Package is already up to date')
