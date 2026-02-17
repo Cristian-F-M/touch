@@ -1,8 +1,17 @@
+import cfonts from 'cfonts'
 import { log } from '@/logger'
 import { version } from '../../package.json'
 
+const renderedTitle = cfonts.render('touch', {
+	font: 'block',
+	colors: ['system', 'white'],
+})
+
+export const TITLE = renderedTitle ? renderedTitle.string : '@cmorales/touch'
+
 export const HELP_MESSAGE = `
-@cmorales/touch v${version}
+${TITLE}
+v${version}
 Creating complex file structures has never been easier.
 
 Usage:
@@ -33,18 +42,18 @@ export const DOCS_URL =
 
 export const COMMANDS = {
 	help: {
-    flags: ['--help', '-h'],
-    run: () => console.log(HELP_MESSAGE)
-  },
-  docs: {
-    flags: ['--docs', '-d'],
-    run: () => log(`To see the documentation, visit: ${DOCS_URL}`)
-  },
-  version: {
-    flags: ['--version', '-v'],
-    run: async () => {
-      const { name, version } = await import('../../package.json')
-      log(`${name} v${version}`)
-    }
-  }
+		flags: ['--help', '-h'],
+		run: () => console.log(HELP_MESSAGE)
+	},
+	docs: {
+		flags: ['--docs', '-d'],
+		run: () => log(`To see the documentation, visit: ${DOCS_URL}`)
+	},
+	version: {
+		flags: ['--version', '-v'],
+		run: async () => {
+			const { name, version } = await import('../../package.json')
+			log(`${name} v${version}`)
+		}
+	}
 } as const
