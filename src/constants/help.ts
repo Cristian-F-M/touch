@@ -45,6 +45,8 @@ Support:
 export const DOCS_URL =
 	'https://github.com/Cristian-F-M/touch-npm?tab=readme-ov-file#cmoralestouch'
 
+  export const updateMessage = "✨ New version available: `{latestVersion}`\nrun 'touch --upgrade' to update"
+
 export const COMMANDS = {
 	help: {
 		flags: ['--help', '-h'],
