@@ -1,19 +1,18 @@
+import updateNotifier from 'update-notifier'
 import { build } from '@/builder'
-import { error, info, warn } from '@/logger'
+import { error } from '@/logger'
 import { getExtension, parse } from '@/parser'
 import { validateInput } from '@/verifier'
-import { version } from '../package.json'
-import { getLatestVersion, showFlagsInfo } from './utils'
+import pkg from '../package.json' with { type: 'json' }
+
+import { showFlagsInfo } from './utils'
+
+const notifier = updateNotifier({ pkg })
+notifier.notify({ defer: true, isGlobal: true })
 
 export const args = process.argv.slice(2)
 
 await showFlagsInfo(args)
-
-const latestVersion = await getLatestVersion()
-if (latestVersion && latestVersion.trim() !== version.trim()) {
-	warn(`✨ New version available: ${latestVersion}`)
-	info(`Run "touch --upgrade" to update`)
-}
 
 const input = args[0]!.replace(/\s/g, '')
 const validation = validateInput(input)

@@ -1,11 +1,10 @@
-import child_process from 'node:child_process'
-import util from 'node:util'
 import cfonts from 'cfonts'
-import { error, info, log, success, warn } from '@/logger'
-import { getLatestVersion } from '@/utils'
-import { name, version } from '../../package.json'
+import updateNotifier from 'update-notifier'
+import { info, log, success } from '@/logger'
+import { updateCli } from '@/utils'
+import pkg from '../../package.json' with { type: 'json' }
 
-const exec = util.promisify(child_process.exec)
+const notifier = updateNotifier({ pkg })
 
 const renderedTitle = cfonts.render('touch', {
 	font: 'block',
@@ -16,7 +15,7 @@ export const TITLE = renderedTitle ? renderedTitle.string : '@cmorales/touch'
 
 export const HELP_MESSAGE = `
 ${TITLE}
-v${version}
+v${pkg.version}
 Creating complex file structures has never been easier.
 
 Usage:
@@ -50,15 +49,7 @@ export const COMMANDS = {
 	help: {
 		flags: ['--help', '-h'],
 		run: async () => {
-			const LATEST_VERSION = await getLatestVersion()
-			const OUTDATED =
-				LATEST_VERSION && LATEST_VERSION.trim() !== version.trim()
-
 			console.log(HELP_MESSAGE)
-			if (OUTDATED) {
-				warn(`✨ New version available: ${LATEST_VERSION}`)
-				info(`Run "touch --upgrade" to update`)
-			}
 		}
 	},
 	docs: {
@@ -75,20 +66,21 @@ export const COMMANDS = {
 	upgrade: {
 		flags: ['--upgrade'],
 		run: async () => {
-			const latestVersion = await getLatestVersion()
+			const { update } = notifier
 
-			if (latestVersion.trim() === version.trim()) {
+			if (!update) return
+
+			const { latest, current } = update
+
+			if (latest === current) {
 				success('Package is already up to date')
 				return
 			}
 
 			info('Upgrading package...')
-			const { stderr, stdout } = await exec(`npm install -g ${name}`)
+			await updateCli()
 
-			if (stderr) return error(stderr)
-
-			info(`\n| ${stdout.toString().trim()}\n`)
-			success(`Package upgraded successfully to v${latestVersion}`)
+			success(`Package upgraded successfully to v${latest}`)
 		}
 	}
 } as const
