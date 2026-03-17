@@ -7,7 +7,7 @@ import pkg from '../package.json'
 import { updateMessage } from './constants/help'
 import { showFlagsInfo } from './utils'
 
-const notifier = updateNotifier({ pkg, updateCheckInterval: 1 })
+const notifier = updateNotifier({ pkg })
 notifier.notify({ message: updateMessage, defer: true, isGlobal: true })
 
 export const args = process.argv.slice(2)
