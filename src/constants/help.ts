@@ -69,20 +69,15 @@ export const COMMANDS = {
 	upgrade: {
 		flags: ['--upgrade'],
 		run: async () => {
-			const { update } = notifier
-
-			if (!update) return await updateCli()
-
-			const { latest, current } = update
+			const { latest, current } = await notifier.fetchInfo()
 
 			if (latest === current) {
 				success('Package is already up to date')
 				return
 			}
 
-			info('Upgrading package...')
+			info('Upgrading package...\n')
 			await updateCli()
-
 			success(`Package upgraded successfully to v${latest}`)
 		}
 	}
