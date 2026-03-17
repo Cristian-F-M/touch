@@ -1,6 +1,7 @@
 import child_process, { spawn } from 'node:child_process'
 import util from 'node:util'
 import { COMMANDS } from '@/constants/help'
+import { error, info } from '@/logger'
 import pkg from '../../package.json' with { type: 'json' }
 
 export async function showFlagsInfo(args: string[]) {
@@ -27,13 +28,23 @@ export function updateCli() {
 	const { promise, resolve, reject } = Promise.withResolvers<void>()
 
 	const child = spawn('npm', ['install', '-g', pkg.name], {
-		stdio: 'inherit',
 		shell: true
 	})
 
+	child.stdout.on('data', (data) => {
+		const text = `${data.toString().trim()}\n`
+		info(`[npm]: ${text}`)
+	})
+
+	child.stderr.on('data', (data) => {
+		const text = `${data.toString().trim()}\n`
+		error(`[npm error]: ${text}`)
+	})
+
 	child.on('close', (code) => {
-		if (code === 0) resolve()
-		else reject(new Error(`Update failed with code ${code}`))
+		if (code === 0) {
+			resolve()
+		} else reject(new Error(`Update failed with code ${code}`))
 	})
 
 	return promise
