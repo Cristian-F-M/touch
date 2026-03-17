@@ -1,11 +1,20 @@
 {
-  "version": "1.2.3",
+  "version": "1.2.4",
   "name": "@cmorales_/touch",
   "module": "/dist/index.js",
   "type": "module",
   "private": false,
   "description": "Creating complex file structures has never been easier. `@cmorales/touch` is a powerful CLI tool that allows you to generate nested directories and files using a simple and intuitive syntax.",
   "license": "MIT",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/Cristian-F-M/touch-npm.git"
+  },
+  "author": {
+    "email": "cfmorales.diaz@gmail.com",
+    "name": "Cristian Morales",
+    "url": "https://cmorales.work"
+  },
   "keywords": [
     "cli",
     "scaffold",
