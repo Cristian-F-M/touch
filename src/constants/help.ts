@@ -45,7 +45,8 @@ Support:
 export const DOCS_URL =
 	'https://github.com/Cristian-F-M/touch-npm?tab=readme-ov-file#cmoralestouch'
 
-  export const updateMessage = "✨ New version available: `{latestVersion}`\nrun 'touch --upgrade' to update"
+export const updateMessage =
+	"✨ New version available: `{latestVersion}`\nrun 'touch --upgrade' to update"
 
 export const COMMANDS = {
 	help: {
@@ -70,7 +71,7 @@ export const COMMANDS = {
 		run: async () => {
 			const { update } = notifier
 
-			if (!update) return
+			if (!update) return await updateCli()
 
 			const { latest, current } = update
 
