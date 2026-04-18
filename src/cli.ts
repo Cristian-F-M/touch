@@ -3,11 +3,14 @@ import { build } from '@/builder'
 import { error } from '@/logger'
 import { getExtension, parse } from '@/parser'
 import { validateInput } from '@/verifier'
-import pkg from '../package.json'
+import pkg from '../package.json' with { type: 'json' }
 import { updateMessage } from './constants/help'
 import { showFlagsInfo } from './utils'
 
-const notifier = updateNotifier({ pkg })
+const notifier = updateNotifier({
+	pkg,
+	updateCheckInterval: 1000 * 60 * 60 * 24 * 7
+})
 notifier.notify({ message: updateMessage, defer: true, isGlobal: true })
 
 export const args = process.argv.slice(2)
