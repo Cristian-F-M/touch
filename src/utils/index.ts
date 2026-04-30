@@ -53,11 +53,11 @@ export function updateCli() {
 	return promise
 }
 
-export function onFetchInfoSucces(info: UpdateInfo) {
-	if (info.current === info.latest) return
+export function onFetchInfoSucces({ latest, current }: UpdateInfo) {
+	if (current === latest) return
 
 	console.log(
-		boxen(pupa(updateMessage, { latestVersion: info.latest }), {
+		boxen(pupa(updateMessage, { latest, current }), {
 			padding: 1,
 			margin: 1,
 			textAlignment: 'center',

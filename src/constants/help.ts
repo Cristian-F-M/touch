@@ -1,10 +1,9 @@
 import cfonts from 'cfonts'
+import picocolors from 'picocolors'
 import updateNotifier from 'update-notifier'
 import { info, log, success } from '@/logger'
 import { updateCli } from '@/utils'
 import pkg from '../../package.json' with { type: 'json' }
-
-const notifier = updateNotifier({ pkg })
 
 const renderedTitle = cfonts.render('touch', {
 	font: 'block',
@@ -45,8 +44,8 @@ Support:
 export const DOCS_URL =
 	'https://github.com/Cristian-F-M/touch-npm?tab=readme-ov-file#cmoralestouch'
 
-export const updateMessage =
-	"✨ New version available: `{latestVersion}`\nrun 'touch --upgrade' to update"
+export const updateMessage = `✨ New version available: ${picocolors.gray('{current}')} → ${picocolors.underline(picocolors.bold(picocolors.green('{latest}')))}
+run ${picocolors.bold(picocolors.cyan('touch --upgrade'))} to update`
 
 export const COMMANDS = {
 	help: {
@@ -69,6 +68,7 @@ export const COMMANDS = {
 	upgrade: {
 		flags: ['--upgrade'],
 		run: async () => {
+			const notifier = updateNotifier({ pkg })
 			const { latest, current } = await notifier.fetchInfo()
 
 			if (latest === current) {
