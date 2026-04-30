@@ -11,21 +11,28 @@ const notifier = updateNotifier({
 	updateCheckInterval: 1000 * 60 * 60 * 24 * 7
 })
 
-Promise.resolve(notifier.fetchInfo()).then(onFetchInfoSucces)
+async function main() {
+	const args = process.argv.slice(2)
 
-export const args = process.argv.slice(2)
+	const handled = await showFlagsInfo(args)
 
-await showFlagsInfo(args)
+	if (!handled) {
+		const input = args[0]!.replace(/\s/g, '')
+		const validation = validateInput(input)
 
-const input = args[0]!.replace(/\s/g, '')
-const validation = validateInput(input)
+		if (!validation.valid) {
+			error(validation.error!)
+			process.exit(1)
+		}
 
-if (!validation.valid) {
-	error(validation.error!)
-	process.exit(1)
+		const tree = parse(input)
+		const ext = getExtension(input)
+
+		build(tree, process.cwd(), ext)
+	}
+
+	const info = await notifier.fetchInfo()
+	onFetchInfoSucces(info)
 }
 
-const tree = parse(input)
-const ext = getExtension(input)
-
-build(tree, process.cwd(), ext)
+main()
