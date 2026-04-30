@@ -33,7 +33,8 @@ export function updateCli() {
 	const { promise, resolve, reject } = Promise.withResolvers<void>()
 
 	const child = spawn('npm', ['install', '-g', pkg.name], {
-		shell: true
+		shell: true,
+		stdio: 'pipe'
 	})
 
 	child.stdout.on('data', (data) => {
@@ -50,6 +51,10 @@ export function updateCli() {
 		if (code === 0) {
 			resolve()
 		} else reject(new Error(`Update failed with code ${code}`))
+	})
+
+	child.on('error', (err) => {
+		error(err.message)
 	})
 
 	return promise
