@@ -11,13 +11,15 @@ export async function showFlagsInfo(args: string[]) {
 	for (const command of Object.values(COMMANDS)) {
 		if (!command.flags.some((flag) => args.includes(flag))) continue
 		await command.run()
-		process.exit(0)
+		return true
 	}
 
 	if (!args.length) {
 		await COMMANDS.help.run()
-		process.exit(0)
+		return true
 	}
+
+	return false
 }
 
 export async function getLatestVersion() {
