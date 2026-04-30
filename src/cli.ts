@@ -4,14 +4,14 @@ import { error } from '@/logger'
 import { getExtension, parse } from '@/parser'
 import { validateInput } from '@/verifier'
 import pkg from '../package.json' with { type: 'json' }
-import { updateMessage } from './constants/help'
-import { showFlagsInfo } from './utils'
+import { onFetchInfoSucces, showFlagsInfo } from './utils'
 
 const notifier = updateNotifier({
 	pkg,
 	updateCheckInterval: 1000 * 60 * 60 * 24 * 7
 })
-notifier.notify({ message: updateMessage, defer: true, isGlobal: true })
+
+Promise.resolve(notifier.fetchInfo()).then(onFetchInfoSucces)
 
 export const args = process.argv.slice(2)
 

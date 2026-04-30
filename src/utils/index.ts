@@ -1,6 +1,9 @@
 import child_process, { spawn } from 'node:child_process'
 import util from 'node:util'
-import { COMMANDS } from '@/constants/help'
+import boxen from 'boxen'
+import pupa from 'pupa'
+import type { UpdateInfo } from 'update-notifier'
+import { COMMANDS, updateMessage } from '@/constants/help'
 import { error, info } from '@/logger'
 import pkg from '../../package.json' with { type: 'json' }
 
@@ -48,4 +51,18 @@ export function updateCli() {
 	})
 
 	return promise
+}
+
+export function onFetchInfoSucces(info: UpdateInfo) {
+	if (info.current === info.latest) return
+
+	console.log(
+		boxen(pupa(updateMessage, { latestVersion: info.latest }), {
+			padding: 1,
+			margin: 1,
+			textAlignment: 'center',
+			borderColor: 'yellow',
+			borderStyle: 'round'
+		})
+	)
 }
