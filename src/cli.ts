@@ -8,7 +8,7 @@ import { onFetchInfoSucces, showFlagsInfo } from './utils'
 
 const notifier = updateNotifier({
 	pkg,
-	updateCheckInterval: 1000 * 60 * 60 * 24 * 7
+	updateCheckInterval: 1000 * 60 * 60 * 24 * 3
 })
 
 async function main() {
