@@ -79,6 +79,7 @@ export const COMMANDS = {
 			info('Upgrading package...\n')
 			await updateCli()
 			success(`Package upgraded successfully to v${latest}`)
+			process.exit(0)
 		}
 	}
 } as const
