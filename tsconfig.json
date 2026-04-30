@@ -2,8 +2,8 @@
   "compilerOptions": {
     // Environment setup & latest features
     "lib": [
-      "ESNext"
-    ],
+		"ESNext"
+	],
     "target": "ESNext",
     "module": "Preserve",
     "moduleDetection": "force",
@@ -24,10 +24,9 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
-    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     }
   }
