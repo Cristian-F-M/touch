@@ -6,10 +6,7 @@ import { validateInput } from '@/verifier'
 import pkg from '../package.json' with { type: 'json' }
 import { onFetchInfoSucces, showFlagsInfo } from './utils'
 
-const notifier = updateNotifier({
-	pkg,
-	updateCheckInterval: 1000 * 60 * 60 * 24 * 3
-})
+let fetched = false
 
 async function main() {
 	const args = process.argv.slice(2)
@@ -31,8 +28,17 @@ async function main() {
 		build(tree, process.cwd(), ext)
 	}
 
-	const info = await notifier.fetchInfo()
-	onFetchInfoSucces(info)
+	if (!fetched) {
+		const notifier = updateNotifier({
+			pkg,
+			updateCheckInterval: 0
+		})
+
+		const info = await notifier.fetchInfo()
+		fetched = true
+
+		onFetchInfoSucces(info)
+	}
 }
 
 main()
