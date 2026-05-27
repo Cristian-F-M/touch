@@ -42,7 +42,7 @@ Support:
 `
 
 export const DOCS_URL =
-	'https://github.com/Cristian-F-M/touch-npm?tab=readme-ov-file#cmoralestouch'
+	'https://github.com/Cristian-F-M/touch?tab=readme-ov-file#cmoralestouch'
 
 export const updateMessage = `✨ New version available: ${picocolors.gray('{current}')} → ${picocolors.underline(picocolors.bold(picocolors.green('{latest}')))}
 run ${picocolors.bold(picocolors.cyan('touch --upgrade'))} to update`
