@@ -1,5 +1,4 @@
-import child_process, { spawn } from 'node:child_process'
-import util from 'node:util'
+import { spawn } from 'node:child_process'
 import boxen from 'boxen'
 import pupa from 'pupa'
 import semver from 'semver'
@@ -61,15 +60,13 @@ export function updateCli() {
 }
 
 export function onFetchInfoSucces({ latest, current }: UpdateInfo) {
-	if (current === latest) return
+	if (semver.gt(latest, current)) {
+		console.log(boxen(pupa(updateMessage, { latest, current }), boxenOptions))
+	}
 
-	console.log(
-		boxen(pupa(updateMessage, { latest, current }), {
-			padding: 1,
-			margin: 1,
-			textAlignment: 'center',
-			borderColor: 'yellow',
-			borderStyle: 'round'
-		})
-	)
+	if (semver.lt(latest, current)) {
+		console.log(
+			boxen(pupa(needDowngradeMessage, { latest, current }), boxenOptions)
+		)
+	}
 }
