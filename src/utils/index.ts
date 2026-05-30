@@ -2,31 +2,30 @@ import child_process, { spawn } from 'node:child_process'
 import util from 'node:util'
 import boxen from 'boxen'
 import pupa from 'pupa'
+import semver from 'semver'
 import type { UpdateInfo } from 'update-notifier'
-import { COMMANDS, updateMessage } from '@/constants/help'
-import { error, info } from '@/logger'
+import updateNotifier from 'update-notifier'
+import {
+	boxenOptions,
+	needDowngradeMessage,
+	updateMessage
+} from '@/constants/help'
+import { error, info, success } from '@/logger'
 import pkg from '../../package.json' with { type: 'json' }
 
-export async function showFlagsInfo(args: string[]) {
-	for (const command of Object.values(COMMANDS)) {
-		if (!command.flags.some((flag) => args.includes(flag))) continue
-		await command.run()
-		return true
+export async function handleUpdateCli() {
+	const notifier = updateNotifier({ pkg })
+	const { latest, current } = await notifier.fetchInfo()
+
+	if (semver.eq(latest, current)) {
+		success('Package is already up to date')
+		return
 	}
 
-	if (!args.length) {
-		await COMMANDS.help.run()
-		return true
-	}
-
-	return false
-}
-
-export async function getLatestVersion() {
-	const exec = util.promisify(child_process.exec)
-	const { name } = await import('../../package.json')
-	const { stdout } = await exec(`npm view ${name} version`)
-	return stdout.toString().trim()
+	info('Upgrading package...\n')
+	await updateCli()
+	success(`Package upgraded successfully to v${latest}`)
+	process.exit(0)
 }
 
 export function updateCli() {
