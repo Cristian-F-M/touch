@@ -30,9 +30,10 @@ export async function handleUpdateCli() {
 
 export function updateCli() {
 	const { promise, resolve, reject } = Promise.withResolvers<void>()
+	const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
 
-	const child = spawn('npm', ['install', '-g', pkg.name], {
-		shell: true,
+	const child = spawn(npm, ['install', '-g', pkg.name], {
+		shell: false,
 		stdio: 'pipe'
 	})
 
