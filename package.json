@@ -1,7 +1,7 @@
 {
   "version": "1.3.6",
   "name": "@cmorales_/touch",
-  "module": "/dist/index.js",
+  "module": "/dist/index.mjs",
   "type": "module",
   "private": false,
   "description": "Creating complex file structures has never been easier. `@cmorales/touch` is a powerful CLI tool that allows you to generate nested directories and files using a simple and intuitive syntax.",
@@ -27,12 +27,12 @@
     "touch"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --clean --splitting false",
+    "build": "tsdown",
     "test": "vitest",
     "release": "bun run build && npm publish --access public"
   },
   "bin": {
-    "touch": "dist/index.js"
+    "touch": "/dist/index.mjs"
   },
   "files": [
     "dist",
@@ -44,7 +44,9 @@
     "@biomejs/biome": "^2.3.13",
     "@types/bun": "^1.3.9",
     "@types/node": "25.6.0",
+    "@types/semver": "7.7.1",
     "@types/update-notifier": "^6.0.8",
+    "tsdown": "0.22.1",
     "tsup": "^8.5.1",
     "vitest": "^4.0.18"
   },
@@ -56,6 +58,7 @@
     "cfonts": "^3.3.1",
     "picocolors": "^1.1.1",
     "pupa": "3.3.0",
+    "semver": "7.8.1",
     "update-notifier": "^7.3.1"
   }
 }
