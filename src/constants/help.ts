@@ -1,9 +1,8 @@
+import pkg from '@./package.json' with { type: 'json' }
+import type { Options } from 'boxen'
 import cfonts from 'cfonts'
 import picocolors from 'picocolors'
-import updateNotifier from 'update-notifier'
-import { info, log, success } from '@/logger'
-import { updateCli } from '@/utils'
-import pkg from '../../package.json' with { type: 'json' }
+import pc from 'picocolors'
 
 const renderedTitle = cfonts.render('touch', {
 	font: 'block',
@@ -47,39 +46,16 @@ export const DOCS_URL =
 export const updateMessage = `✨ New version available: ${picocolors.gray('{current}')} → ${picocolors.underline(picocolors.bold(picocolors.green('{latest}')))}
 run ${picocolors.bold(picocolors.cyan('touch --upgrade'))} to update`
 
-export const COMMANDS = {
-	help: {
-		flags: ['--help', '-h'],
-		run: async () => {
-			console.log(HELP_MESSAGE)
-		}
-	},
-	docs: {
-		flags: ['--docs', '-d'],
-		run: () => log(`To see the documentation, visit: ${DOCS_URL}`)
-	},
-	version: {
-		flags: ['--version', '-v'],
-		run: async () => {
-			const { name, version } = await import('../../package.json')
-			log(`${name} v${version}`)
-		}
-	},
-	upgrade: {
-		flags: ['--upgrade'],
-		run: async () => {
-			const notifier = updateNotifier({ pkg })
-			const { latest, current } = await notifier.fetchInfo()
+export const needDowngradeMessage = `⏳ Wait... you are from the future?!
+Your version: ${pc.gray('{current}')} → Latest: ${pc.underline(pc.bold(pc.green('{latest}')))}
 
-			if (latest === current) {
-				success('Package is already up to date')
-				return
-			}
+Marty, we need to go back to the past!
+run ${pc.bold(pc.blue('tree --upgrade'))} to sync`
 
-			info('Upgrading package...\n')
-			await updateCli()
-			success(`Package upgraded successfully to v${latest}`)
-			process.exit(0)
-		}
-	}
-} as const
+export const boxenOptions = {
+	padding: 1,
+	margin: 1,
+	textAlignment: 'center',
+	borderColor: 'yellow',
+	borderStyle: 'round'
+} satisfies Options
